@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control Digital de Bitácoras - Mejora Continua</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <div>
+            <h1>Control Digital de Bitácoras</h1>
+            <p>Trazabilidad documental y exportación rápida — Mejora Continua</p>
+        </div>
+        <div class="topbar-actions">
+            <button type="button" id="btn-exportar" class="btn btn-success">Exportar Excel (.xls)</button>
+            <button type="button" id="btn-ejemplos" class="btn btn-secondary">Cargar ejemplos</button>
+            <button type="button" id="btn-limpiar" class="btn btn-danger">Limpiar todo</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Mensaje de confirmación o error -->
+        <div id="alerta" class="alerta oculto"></div>
+
+        <!-- Indicadores rápidos -->
+        <section class="kpis">
+            <div class="kpi-card">
+                <span>Total Bitácoras</span>
+                <strong id="kpi-total">0</strong>
+            </div>
+            <div class="kpi-card">
+                <span>Abiertas (Sin cierre)</span>
+                <strong id="kpi-abiertas">0</strong>
+            </div>
+            <div class="kpi-card">
+                <span>Cerradas</span>
+                <strong id="kpi-cerradas">0</strong>
+            </div>
+        </section>
+
+        <!-- Formulario de ingreso -->
+        <section class="card">
+            <h2>Nuevo Registro de Bitácora</h2>
+            <form id="form-bitacora" class="grid-form">
+                <label>
+                    Fecha Recepción *
+                    <input type="date" id="fechaRecepcion" required />
+                </label>
+
+                <label>
+                    Código Bitácora *
+                    <input type="text" id="codigoBitacora" placeholder="Ej: BIT-2026-005" required />
+                </label>
+
+                <label>
+                    Nombre Bitácora *
+                    <input type="text" id="nombreBitacora" placeholder="Ej: Limpieza Línea Blíster 2" required />
+                </label>
+
+                <label>
+                    Código Interno *
+                    <input type="text" id="codigoInterno" placeholder="Ej: DOC-QA-104" required />
+                </label>
+
+                <label>
+                    N° Caja *
+                    <input type="text" id="numeroCaja" placeholder="Ej: CAJA-01" required />
+                </label>
+
+                <label>
+                    Quién guardó el documento *
+                    <input type="text" id="responsable" placeholder="Ej: L. Araya" required />
+                </label>
+
+                <label>
+                    Fecha Apertura *
+                    <input type="date" id="fechaApertura" required />
+                </label>
+
+                <label>
+                    Fecha Cierre (opcional)
+                    <input type="date" id="fechaCierre" />
+                </label>
+
+                <label class="full-width">
+                    Observaciones
+                    <input type="text" id="observaciones" placeholder="Ej: Revisión completa, sin hallazgos" />
+                </label>
+
+                <div class="full-width form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar Registro</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabla y filtros -->
+        <section class="card">
+            <div class="table-header">
+                <h2>Registros Guardados</h2>
+                <div class="filtros">
+                    <input type="text" id="buscador" placeholder="Buscar por código, nombre o caja..." />
+                    <select id="filtroEstado">
+                        <option value="TODAS">Todas</option>
+                        <option value="ABIERTA">Abiertas</option>
+                        <option value="CERRADA">Cerradas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Fecha Recepción</th>
+                            <th>Código Bitácora</th>
+                            <th>Nombre Bitácora</th>
+                            <th>Código Interno</th>
+                            <th>N° Caja</th>
+                            <th>Guardado por</th>
+                            <th>Fecha Apertura</th>
+                            <th>Fecha Cierre</th>
+                            <th>Observaciones</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
