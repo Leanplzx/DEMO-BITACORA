@@ -78,29 +78,37 @@ function renderizar() {
         return coincideEstado && coincideTexto;
     });
 
-    tbody.innerHTML = filtrados
-        .map((r) => {
-            const cerrada = Boolean(r.fechaCierre);
-            return `
+    if (!filtrados.length) {
+        tbody.innerHTML = `
+        <tr class="empty-row">
+          <td colspan="11">No se encontraron registros con los filtros actuales.</td>
+        </tr>
+      `;
+    } else {
+        tbody.innerHTML = filtrados
+            .map((r) => {
+                const cerrada = Boolean(r.fechaCierre);
+                return `
         <tr>
-          <td><span class="badge ${cerrada ? "badge-cerrada" : "badge-abierta"}">${cerrada ? "Cerrada" : "Abierta"}</span></td>
-          <td>${r.fechaRecepcion}</td>
-          <td><strong>${r.codigoBitacora}</strong></td>
-          <td>${r.nombreBitacora}</td>
-          <td>${r.codigoInterno}</td>
-          <td>${r.numeroCaja}</td>
-          <td>${r.responsable}</td>
-          <td>${r.fechaApertura}</td>
-          <td>${r.fechaCierre || "-"}</td>
-          <td>${r.observaciones || "-"}</td>
-          <td>
+          <td data-label="Estado"><span class="badge ${cerrada ? "badge-cerrada" : "badge-abierta"}">${cerrada ? "Cerrada" : "Abierta"}</span></td>
+          <td data-label="Fecha Recepción">${r.fechaRecepcion}</td>
+          <td data-label="Código Bitácora"><strong>${r.codigoBitacora}</strong></td>
+          <td data-label="Nombre Bitácora">${r.nombreBitacora}</td>
+          <td data-label="Código Interno">${r.codigoInterno}</td>
+          <td data-label="N° Caja">${r.numeroCaja}</td>
+          <td data-label="Guardado por">${r.responsable}</td>
+          <td data-label="Fecha Apertura">${r.fechaApertura}</td>
+          <td data-label="Fecha Cierre">${r.fechaCierre || "-"}</td>
+          <td data-label="Observaciones">${r.observaciones || "-"}</td>
+          <td data-label="Acciones" class="td-acciones">
             ${!cerrada ? `<button class="btn btn-success btn-sm" onclick="cerrarBitacora('${r.codigoBitacora}')">Cerrar hoy</button>` : ""}
             <button class="btn btn-danger btn-sm" onclick="eliminarBitacora('${r.codigoBitacora}')">Eliminar</button>
           </td>
         </tr>
       `;
-        })
-        .join("");
+            })
+            .join("");
+    }
 
     document.getElementById("kpi-total").textContent = registros.length;
     document.getElementById("kpi-abiertas").textContent = registros.filter((r) => !r.fechaCierre).length;
